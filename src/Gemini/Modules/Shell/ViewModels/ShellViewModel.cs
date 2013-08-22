@@ -232,7 +232,15 @@ namespace Gemini.Modules.Shell.ViewModels
 
 		public void Close()
 		{
-			Application.Current.MainWindow.Close();
+            // TODO: This also responds to the MainWindow close. And what we really need to do is
+            // Save our State!!! Find a better way...
+            //
+            if (Application.Current.MainWindow != null)
+            {
+                Application.Current.MainWindow.Close();
+            }
+
+            SaveState(StateFile);
 		}
 
 	    private void SaveState(string fileName)
@@ -255,20 +263,26 @@ namespace Gemini.Modules.Shell.ViewModels
 
 	                foreach (ILayoutItem item in itemStates)
 	                {
-	                    ExportAttribute exportAttribute =
-	                        item.GetType()
-	                            .GetCustomAttributes(typeof (ExportAttribute), false)
-	                            .Cast<ExportAttribute>()
-	                            .FirstOrDefault();
+                        // JJ : We should not be using the Export type as the actual save type!!!
+                        // all Tools should export ITool, and we should use the actual instance type here!!!
+                        // This will then allow other systems to use ImportMany(typeof(ITool)) properly
+                        // to scan for all concrete instances of ITool
+                        //
 
-	                    string typeName = null;
+                        //ExportAttribute exportAttribute =
+                        //    item.GetType()
+                        //        .GetCustomAttributes(typeof (ExportAttribute), false)
+                        //        .Cast<ExportAttribute>()
+                        //        .FirstOrDefault();
 
-	                    if (exportAttribute != null && exportAttribute.ContractType != null)
-	                    {
-	                        typeName = exportAttribute.ContractType.AssemblyQualifiedName;
-	                    }
+                        string typeName = item.GetType().AssemblyQualifiedName;
 
-	                    if (string.IsNullOrEmpty(typeName))
+                        //if (exportAttribute != null && exportAttribute.ContractType != null)
+                        //{
+                        //    typeName = exportAttribute.ContractType.AssemblyQualifiedName;
+                        //}
+
+                        if (string.IsNullOrEmpty(typeName))
 	                    {
 	                        continue;
 	                    }
@@ -328,6 +342,8 @@ namespace Gemini.Modules.Shell.ViewModels
 	        }
 	    }
 
+        [ImportMany(typeof(ILayoutItem))]
+        private IEnumerable<ILayoutItem> AllExportedLayoutItems { get; set; }
 
         private void LoadState(string fileName, IShellView shellView)
         {
@@ -362,8 +378,8 @@ namespace Gemini.Modules.Shell.ViewModels
 
                         if (contentType != null)
                         {
-                            var contentInstance = IoC.GetInstance(contentType, null) as ILayoutItem;
-
+                            // lookup the content within all exported ILayoutItems, instead of by getting the type directly 
+                            var contentInstance = AllExportedLayoutItems.Where(x => x.GetType() == contentType).FirstOrDefault();
                             if (contentInstance != null)
                             {
                                 layoutItems.Add(contentId, contentInstance);

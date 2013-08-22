@@ -4,7 +4,8 @@
         xmlns:cal="http://www.caliburnproject.org"
         Title="{Binding Title}" Icon="{Binding Icon}" 
 		Width="1000" Height="800" WindowStartupLocation="CenterScreen"
-        WindowState="{Binding WindowState}">
+        WindowState="{Binding WindowState}"
+        Unloaded="OnWindowUnloaded">
 	<Grid>
 		<ContentControl cal:View.Model="{Binding Shell}" />
 	</Grid>
