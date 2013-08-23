@@ -32,6 +32,15 @@ namespace Gemini.Framework.Results
 
 		public override void Execute(ActionExecutionContext context)
 		{
+            // First see if the document path is already open in the shell
+            var existingDocument = _shell.Documents.Where(d => d.DocumentPath == _path).FirstOrDefault();
+            if (existingDocument != null)
+            {
+                _shell.ActivateDocument(existingDocument);
+                OnCompleted(null);
+                return;
+            }
+
 			var editor = _editor ??
 				(string.IsNullOrEmpty(_path)
 					? (IDocument)IoC.GetInstance(_editorType, null)

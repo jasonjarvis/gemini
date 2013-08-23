@@ -342,8 +342,11 @@ namespace Gemini.Modules.Shell.ViewModels
 	        }
 	    }
 
-        [ImportMany(typeof(ILayoutItem))]
-        private IEnumerable<ILayoutItem> AllExportedLayoutItems { get; set; }
+        [ImportMany(typeof(ITool))]
+        private IEnumerable<ITool> AllExportedTools { get; set; }
+
+        [ImportMany(typeof(IDocument))]
+        private IEnumerable<ExportFactory<IDocument, IDictionary<string, object>>> AllExportedDocuments { get; set; }
 
         private void LoadState(string fileName, IShellView shellView)
         {
@@ -378,8 +381,18 @@ namespace Gemini.Modules.Shell.ViewModels
 
                         if (contentType != null)
                         {
-                            // lookup the content within all exported ILayoutItems, instead of by getting the type directly 
-                            var contentInstance = AllExportedLayoutItems.Where(x => x.GetType() == contentType).FirstOrDefault();
+                            // lookup the content within all exported tools and documents, instead of by getting the type directly 
+                            ILayoutItem contentInstance = AllExportedTools.Where(x => x.GetType() == contentType).FirstOrDefault();
+                            if (contentInstance == null)
+                            {
+                                // documents need to be instance multiple times potentially
+                                var factory = AllExportedDocuments.Where(x => typeName.Contains(x.Metadata["Type"].ToString())).FirstOrDefault();
+                                if (factory != null)
+                                {
+                                    contentInstance = factory.CreateExport().Value;
+                                }
+                            }
+
                             if (contentInstance != null)
                             {
                                 layoutItems.Add(contentId, contentInstance);
