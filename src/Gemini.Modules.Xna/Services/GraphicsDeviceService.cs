@@ -154,7 +154,8 @@ namespace Gemini.Modules.Xna.Services
                 _parameters.BackBufferWidth = newWidth;
                 _parameters.BackBufferHeight = newHeight;
 
-                _graphicsDevice.Reset(_parameters);
+                // JJ : broken with switch to MonoGame
+                //_graphicsDevice.Reset(_parameters);
 
                 if (DeviceReset != null)
                     DeviceReset(this, EventArgs.Empty);

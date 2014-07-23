@@ -285,7 +285,8 @@ namespace Gemini.Modules.Xna.Controls
             RaiseRenderXna(new GraphicsDeviceEventArgs(_graphicsService.GraphicsDevice));
 
             // Present to the screen, but only use the visible area of the back buffer
-            _graphicsService.GraphicsDevice.Present(viewport.Bounds, null, _hWnd);
+            // JJ : Broken
+            //_graphicsService.GraphicsDevice.Present(viewport.Bounds, null, _hWnd);
         }
 
         /// <summary>
