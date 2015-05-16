@@ -13,6 +13,8 @@ using Gemini.Modules.Shell.Services;
 using Gemini.Modules.Shell.Views;
 using Gemini.Modules.StatusBar;
 using Gemini.Modules.ToolBars;
+using Gemini.Modules.MainMenu.Models;
+using Gemini.Framework.Menus;
 
 namespace Gemini.Modules.Shell.ViewModels
 {
@@ -41,6 +43,9 @@ namespace Gemini.Modules.Shell.ViewModels
         [Import]
         private ILayoutItemStatePersister _layoutItemStatePersister;
 #pragma warning restore 649
+
+        [ImportMany(typeof(ITool))]
+        private IEnumerable<Lazy<ITool, IToolMetadata>> AvailableTools { get; set; }
 
         private IShellView _shellView;
 	    private bool _closing;
@@ -158,8 +163,27 @@ namespace Gemini.Modules.Shell.ViewModels
 	        foreach (var module in _modules)
 	            module.Initialize();
 
-	        // If after initialization no theme was loaded, load the default one
-	        if (_themeManager.CurrentTheme == null)
+            // Populate our view menu with Tools
+            var viewMenu = MainMenu.FirstOrDefault(x => (x as MainMenu.Models.TextMenuItem).Text == "_View");
+            if(viewMenu == null && AvailableTools.Any())
+            {
+                var def = new TextMenuItemDefinition(null, 2, "_View");
+                viewMenu = new TextMenuItem(def);
+                MainMenu.Insert(2, viewMenu);
+            }
+
+            foreach (var exportedTool in AvailableTools.OrderBy(t => t.Metadata.SortOrder))
+            {
+                var localExport = exportedTool;
+                viewMenu.Add(new ActionMenuItem(localExport.Metadata.DisplayName, argument =>
+                {
+                    // by using Lazy we can avoid instantiating the tool until when it is actually displayed!
+                    Caliburn.Micro.IoC.Get<IShell>().ShowTool(localExport.Value);
+                }));
+            }
+
+            // If after initialization no theme was loaded, load the default one
+            if (_themeManager.CurrentTheme == null)
 	            _themeManager.SetCurrentTheme(Properties.Settings.Default.ThemeName);
 
             _shellView = (IShellView)view;

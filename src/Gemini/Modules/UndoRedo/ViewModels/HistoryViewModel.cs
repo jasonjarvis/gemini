@@ -9,6 +9,7 @@ using Gemini.Framework.Services;
 namespace Gemini.Modules.UndoRedo.ViewModels
 {
     [Export(typeof(IHistoryTool))]
+    [ExportTool(typeof(HistoryViewModel), "History", Category = "View", SortOrder = 12)]
     public class HistoryViewModel : Tool, IHistoryTool
     {
         private readonly BindableCollection<HistoryItemViewModel> _historyItems;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gemini.Demo", "Gemini.Demo\Gemini.Demo.csproj", "{250E5DC8-DEE7-428E-8FE6-EAFDD70977EE}"
 EndProject
@@ -116,7 +116,6 @@ Global
 		{DCE32AFD-5E68-45CF-B540-5294930E249E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCE32AFD-5E68-45CF-B540-5294930E249E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCE32AFD-5E68-45CF-B540-5294930E249E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{DCE32AFD-5E68-45CF-B540-5294930E249E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{DCE32AFD-5E68-45CF-B540-5294930E249E}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{DCE32AFD-5E68-45CF-B540-5294930E249E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCE32AFD-5E68-45CF-B540-5294930E249E}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -126,7 +125,6 @@ Global
 		{9F269618-D57F-42A1-9C8E-71291BB10588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F269618-D57F-42A1-9C8E-71291BB10588}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F269618-D57F-42A1-9C8E-71291BB10588}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{9F269618-D57F-42A1-9C8E-71291BB10588}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{9F269618-D57F-42A1-9C8E-71291BB10588}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{9F269618-D57F-42A1-9C8E-71291BB10588}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F269618-D57F-42A1-9C8E-71291BB10588}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -146,7 +144,6 @@ Global
 		{C3E1B956-50E7-425E-B61A-4673D4B6759F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C3E1B956-50E7-425E-B61A-4673D4B6759F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3E1B956-50E7-425E-B61A-4673D4B6759F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{C3E1B956-50E7-425E-B61A-4673D4B6759F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{C3E1B956-50E7-425E-B61A-4673D4B6759F}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{C3E1B956-50E7-425E-B61A-4673D4B6759F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3E1B956-50E7-425E-B61A-4673D4B6759F}.Release|Any CPU.Build.0 = Release|Any CPU

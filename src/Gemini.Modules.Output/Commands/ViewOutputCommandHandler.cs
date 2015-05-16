@@ -6,6 +6,7 @@ using Gemini.Framework.Threading;
 
 namespace Gemini.Modules.Output.Commands
 {
+/* No longer needed with new Tool importing solution
     [CommandHandler]
     public class ViewOutputCommandHandler : CommandHandlerBase<ViewOutputCommandDefinition>
     {
@@ -23,4 +24,5 @@ namespace Gemini.Modules.Output.Commands
             return TaskUtility.Completed;
         }
     }
+*/
 }

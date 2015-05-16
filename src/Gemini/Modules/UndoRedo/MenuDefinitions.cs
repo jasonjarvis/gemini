@@ -14,8 +14,9 @@ namespace Gemini.Modules.UndoRedo
         public static MenuItemDefinition EditRedoMenuItem = new CommandMenuItemDefinition<RedoCommandDefinition>(
             MainMenu.MenuDefinitions.EditUndoRedoMenuGroup, 1);
 
-        [Export]
-        public static MenuItemDefinition ViewHistoryMenuItem = new CommandMenuItemDefinition<ViewHistoryCommandDefinition>(
-            MainMenu.MenuDefinitions.ViewToolsMenuGroup, 5);
+        // We no longer need this extra boiler plate as Tool viewmodels can now define how they get injected into the view menu
+        //[Export]
+        //public static MenuItemDefinition ViewHistoryMenuItem = new CommandMenuItemDefinition<ViewHistoryCommandDefinition>(
+        //    MainMenu.MenuDefinitions.ViewToolsMenuGroup, 5);
     }
 }

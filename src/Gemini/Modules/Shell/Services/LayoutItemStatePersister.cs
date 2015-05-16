@@ -36,42 +36,9 @@ namespace Gemini.Modules.Shell.Services
                         if (!item.ShouldReopenOnStart)
                             continue;
 
-                        var itemType = item.GetType();
-                        List<ExportAttribute> exportAttributes = itemType
-                                .GetCustomAttributes(typeof(ExportAttribute), false)
-                                .Cast<ExportAttribute>().ToList();
-
-                        var layoutType = typeof(ILayoutItem);
-                        // get exports with explicit types or names that inherit from ILayoutItem
-                        var exportTypes = (from att in exportAttributes
-                                           // select the contract type if it is of type ILayoutitem. else null
-                                           let typeFromContract = att.ContractType != null
-                                               && layoutType.IsAssignableFrom(att.ContractType) ? att.ContractType : null
-                                           // select the contract name if it is of type ILayoutItem. else null
-                                           let typeFromQualifiedName = GetTypeFromContractNameAsILayoutItem(att)
-                                           // select the viewmodel tpye if it is of type ILayoutItem. else null
-                                           let typeFromViewModel = layoutType.IsAssignableFrom(itemType) ? itemType : null
-                                           // att.ContractType overrides att.ContractName if both are set.
-                                           // fall back to the ViewModel type of neither are defined.
-                                           let type = typeFromContract ?? typeFromQualifiedName ?? typeFromViewModel
-                                           where type != null
-                                           select type).ToList();
-
-                        // throw exceptions here, instead of failing silently. These are design time errors.
-                        var firstExport = exportTypes.FirstOrDefault();
-                        if (firstExport == null)
-                            throw new InvalidOperationException(string.Format(
-                                "A ViewModel that participates in LayoutItem.ShouldReopenOnStart must be decorated with an ExportAttribute who's ContractType that inherits from ILayoutItem, infringing type is {0}.", itemType));
-                        if (exportTypes.Count > 1)
-                            throw new InvalidOperationException(string.Format(
-                                "A ViewModel that participates in LayoutItem.ShouldReopenOnStart can't be decorated with more than one ExportAttribute which inherits from ILayoutItem. infringing type is {0}.", itemType));
-
-                        var selectedTypeName = firstExport.AssemblyQualifiedName;
-
-                        if (string.IsNullOrEmpty(selectedTypeName))
-                            throw new InvalidOperationException(string.Format(
-                                "Could not retrieve the assembly qualified type name for {0}, most likely because the type is generic.", firstExport));
-                        // TODO: it is possible to save generic types. It requires that every generic parameter is saved, along with its position in the generic tree... A lot of work.
+                        // simply save by concrete type name allways. Then in LoadState we need to match this type up with 
+                        // one of our known export types (Tools or Documents). 
+                        var selectedTypeName = item.GetType().AssemblyQualifiedName;
 
                         writer.Write(selectedTypeName);
                         writer.Write(item.ContentId);
@@ -141,6 +108,13 @@ namespace Gemini.Modules.Shell.Services
             return type;
         }
 
+        // If we make these Lazy, we speed startup time, and reduce dependency issues
+        [ImportMany(typeof(ITool))]
+        private IEnumerable<Lazy<ITool, IToolMetadata>> AllExportedTools { get; set; }
+
+        [ImportMany(typeof(IDocument))]
+        private IEnumerable<ExportFactory<IDocument, IDocumentMetadata>> AllExportedDocuments { get; set; }
+
         public void LoadState(IShell shell, IShellView shellView, string fileName)
         {
             var layoutItems = new Dictionary<string, ILayoutItem>();
@@ -174,7 +148,23 @@ namespace Gemini.Modules.Shell.Services
 
                         if (contentType != null)
                         {
-                            var contentInstance = IoC.GetInstance(contentType, null) as ILayoutItem;
+                            // lookup the content within exported tools and document factories
+                            ILayoutItem contentInstance = AllExportedTools.Where(x => x.Metadata.ToolType == contentType).Select(x => x.Value).FirstOrDefault();
+                            if (contentInstance == null)
+                            {
+                                // see if it is a document type, and support instancing multiple times
+                                var factory = AllExportedDocuments.Where(x => typeName.Contains(x.Metadata.Type.ToString())).FirstOrDefault();
+                                if (factory != null)
+                                {
+                                    contentInstance = factory.CreateExport().Value;
+                                }
+                            }
+
+                            if (contentInstance == null)
+                            {
+                                // fall back to the old way - ELIMINATE THIS SOON!
+                                contentInstance = IoC.GetInstance(contentType, null) as ILayoutItem;
+                            }
 
                             if (contentInstance != null)
                             {

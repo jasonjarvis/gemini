@@ -152,6 +152,7 @@
     <Compile Include="Modules\MainMenu\IMenuBuilder.cs" />
     <Compile Include="Modules\MainMenu\MenuBuilder.cs" />
     <Compile Include="Modules\MainMenu\MenuDefinitions.cs" />
+    <Compile Include="Modules\MainMenu\Models\ActionMenuItem.cs" />
     <Compile Include="Modules\MainMenu\Models\CommandMenuItem.cs" />
     <Compile Include="Modules\MainMenu\Models\StandardMenuItem.cs" />
     <Compile Include="Modules\MainMenu\ViewModels\MainMenuSettingsViewModel.cs" />

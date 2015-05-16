@@ -11,7 +11,8 @@ using Gemini.Modules.Toolbox.Services;
 
 namespace Gemini.Modules.Toolbox.ViewModels
 {
-    [Export(typeof(IToolbox))]
+    [Export(typeof(IToolbox))]      // should try to get rid of this!
+    [ExportTool(typeof(ToolboxViewModel), "Tool Box", Category = "View", SortOrder = 4)]
     public class ToolboxViewModel : Tool, IToolbox
     {
         private readonly IToolboxService _toolboxService;

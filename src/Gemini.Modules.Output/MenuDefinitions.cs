@@ -6,8 +6,8 @@ namespace Gemini.Modules.Output
 {
     public static class MenuDefinitions
     {
-        [Export]
-        public static MenuItemDefinition ViewOutputMenuItem = new CommandMenuItemDefinition<ViewOutputCommandDefinition>(
-            MainMenu.MenuDefinitions.ViewToolsMenuGroup, 1);
+        //[Export]
+        //public static MenuItemDefinition ViewOutputMenuItem = new CommandMenuItemDefinition<ViewOutputCommandDefinition>(
+        //    MainMenu.MenuDefinitions.ViewToolsMenuGroup, 1);
     }
 }

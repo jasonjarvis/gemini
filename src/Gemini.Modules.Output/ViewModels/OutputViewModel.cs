@@ -9,8 +9,9 @@ using Gemini.Modules.Output.Views;
 
 namespace Gemini.Modules.Output.ViewModels
 {
-	[Export(typeof(IOutput))]
-	public class OutputViewModel : Tool, IOutput
+    [Export(typeof(IOutput))]
+    [ExportTool(typeof(OutputViewModel), "Output", Category = "View", SortOrder = 20)]
+    public class OutputViewModel : Tool, IOutput
 	{
         private readonly StringBuilder _stringBuilder;
 		private readonly OutputWriter _writer;

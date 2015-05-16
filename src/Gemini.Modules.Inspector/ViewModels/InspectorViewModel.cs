@@ -6,6 +6,7 @@ using Gemini.Framework.Services;
 namespace Gemini.Modules.Inspector.ViewModels
 {
     [Export(typeof(IInspectorTool))]
+    [ExportTool(typeof(InspectorViewModel), "Inspector", Category = "View", SortOrder = 5)]
     public class InspectorViewModel : Tool, IInspectorTool
     {
         public event EventHandler SelectedObjectChanged;
