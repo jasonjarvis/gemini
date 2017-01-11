@@ -163,7 +163,14 @@ namespace Gemini.Modules.Shell.Services
                             if (contentInstance == null)
                             {
                                 // fall back to the old way - ELIMINATE THIS SOON!
-                                contentInstance = IoC.GetInstance(contentType, null) as ILayoutItem;
+                                try
+                                {
+                                    contentInstance = IoC.GetInstance(contentType, null) as ILayoutItem;
+                                }
+                                catch
+                                {
+                                    // print to log?
+                                }
                             }
 
                             if (contentInstance != null)
