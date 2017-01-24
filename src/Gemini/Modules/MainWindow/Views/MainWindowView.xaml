@@ -4,7 +4,7 @@
                      xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                      xmlns:cal="http://www.caliburnproject.org"
                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                     xmlns:behaviours="http://metro.mahapps.com/winfx/xaml/shared"
+                     xmlns:Behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
                      xmlns:behaviors="clr-namespace:Gemini.Framework.Behaviors"
                      WindowTransitionsEnabled="False" 
                      Title="{Binding Title}" 
@@ -14,8 +14,8 @@
                      WindowStartupLocation="CenterScreen"
                      WindowState="{Binding WindowState}"
                      ResizeMode="CanResizeWithGrip"
-                     UseLayoutRounding="True"
-                     Style="{DynamicResource MainWindowStyle}">
+                     GlowBrush="{DynamicResource AccentColorBrush}"
+                     UseLayoutRounding="True">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,10 +23,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <i:Interaction.Behaviors>
+    <!--<i:Interaction.Behaviors>
         <behaviours:BorderlessWindowBehavior />
         <behaviors:CustomGlowWindowBehavior />
-    </i:Interaction.Behaviors>
+    </i:Interaction.Behaviors>-->
     <Grid>
 		<ContentControl cal:View.Model="{Binding Shell}" />
 	</Grid>

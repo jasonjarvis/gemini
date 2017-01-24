@@ -3,12 +3,14 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
 
+    <!--JJ - I have disabled some of these Theme overrides so that we can just use the MahApps themes.-->
+    
     <Style x:Key="MainWindowStyle" 
            TargetType="controls:MetroWindow"
            BasedOn="{StaticResource {x:Type controls:MetroWindow}}">
-        <Setter Property="WindowTitleBrush" Value="{DynamicResource MainWindowCaptionActiveBackground}" />
-        <Setter Property="TitleForeground" Value="{DynamicResource MainWindowCaptionActiveText}" />
-        <Setter Property="NonActiveWindowTitleBrush" Value="{DynamicResource MainWindowCaptionInactiveBackground}" />
+        <!--<Setter Property="WindowTitleBrush" Value="{DynamicResource MainWindowCaptionActiveBackground}" />-->
+        <!--<Setter Property="TitleForeground" Value="{DynamicResource MainWindowCaptionActiveText}" />-->
+        <!--<Setter Property="NonActiveWindowTitleBrush" Value="{DynamicResource MainWindowCaptionInactiveBackground}" />-->
         <Setter Property="TitleCaps" Value="False" />
         <Setter Property="GlowBrush" Value="{DynamicResource MainWindowActiveBorder}" />
         <Setter Property="NonActiveGlowBrush" Value="{DynamicResource MainWindowInactiveBorder}" />
@@ -21,7 +23,7 @@
     </Style>
 
     <!-- We don't use it, but it's referenced by the base style. -->
-    <SolidColorBrush x:Key="WindowTitleColorBrush" Color="Red" />
+    <!--<SolidColorBrush x:Key="WindowTitleColorBrush" Color="Red" />-->
 
     <system:Double x:Key="WindowTitleFontSize">16</system:Double>
     <FontFamily x:Key="HeaderFontFamily">

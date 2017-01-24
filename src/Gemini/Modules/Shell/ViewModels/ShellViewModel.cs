@@ -305,7 +305,15 @@ namespace Gemini.Modules.Shell.ViewModels
 
             _layoutItemStatePersister.SaveState(this, _shellView, StateFile);
 
-            base.OnDeactivate(close);
+            try
+            {
+                // since the update to latest Xceed.AvalonDock we get an exception here now. ignore
+                base.OnDeactivate(close);
+            }
+            catch
+            {
+
+            }
         }
 
         public void Close()
